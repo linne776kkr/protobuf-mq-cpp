@@ -1,0 +1,34 @@
+syntax = "proto3";
+package mq;
+
+enum ExchangeType{//交换机类型
+    UNKNOWTYPE = 0;
+    DIRECT = 1;
+    FANOUT = 2;
+    TOPIC = 3;
+};
+
+enum DeliveryMode{//是否持久化标志
+    UNKNOWMODE = 0;
+    UNDURABLE = 1;
+    DURABLE = 2;
+};
+
+message BasecProperties{//基础信息属性
+    string id = 1;
+    DeliveryMode deliver_mode = 2;
+    string roting_key = 3;
+};
+
+message Message{//信息属性
+    message Payload{//信息主体属性
+        BasecProperties properties = 1;//基础属性信息
+        string body = 2;//信息主体 
+        string valid = 3;//信息是否有效
+    };
+    //信息管理属性
+    Payload payload = 1;//信息属性
+    uint32 offset = 2;//信息在文件的位置
+    uint32 length = 3;//信息的长度
+    
+};
